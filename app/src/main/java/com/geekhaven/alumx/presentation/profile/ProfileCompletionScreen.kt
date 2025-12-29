@@ -32,6 +32,7 @@ fun ProfileCompletionScreen() {
     val blue = Color(0xFF1E6BFF)
     val cardBg = Color(0xFF141C2F)
 
+    // Form States
     var graduationYear by remember { mutableStateOf("") }
     var branch by remember { mutableStateOf("") }
     var currentRole by remember { mutableStateOf("") }
@@ -64,6 +65,7 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(20.dp))
 
+      
         Row(Modifier.fillMaxWidth()) {
             Text("Profile Strength", color = Color.Gray)
             Spacer(Modifier.weight(1f))
@@ -86,7 +88,7 @@ fun ProfileCompletionScreen() {
         }
 
         LinearProgressIndicator(
-            progress = 0.75f,
+            progress = { 0.75f },
             color = blue,
             trackColor = Color.DarkGray,
             modifier = Modifier
@@ -97,6 +99,7 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(24.dp))
 
+        
         Text(
             "Let's finish your profile.",
             color = Color.White,
@@ -112,6 +115,7 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(28.dp))
 
+      
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -126,8 +130,10 @@ fun ProfileCompletionScreen() {
                         .background(Color(0xFFE0C4A6)),
                     contentAlignment = Alignment.Center
                 ) {
+                   
                 }
 
+              
                 Box(
                     modifier = Modifier
                         .size(32.dp)
@@ -144,6 +150,7 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(32.dp))
 
+     
         ProfileTextField(graduationYear, { graduationYear = it }, "Graduation Year", "e.g. 2024")
         Spacer(Modifier.height(16.dp))
 
@@ -160,6 +167,7 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(24.dp))
 
+     
         SectionTitle("Skills", "Add at least 3")
 
         OutlinedTextField(
@@ -195,6 +203,7 @@ fun ProfileCompletionScreen() {
             }
         )
 
+        @OptIn(ExperimentalLayoutApi::class)
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -202,7 +211,7 @@ fun ProfileCompletionScreen() {
             skills.forEach { skill ->
                 RemovableChip(text = skill, onRemove = { skills.remove(skill) })
             }
-
+            // Add Skill Chip (Static)
             Box(
                 modifier = Modifier
                     .background(Color(0xFF1C2333), RoundedCornerShape(20.dp))
@@ -221,12 +230,36 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(24.dp))
 
+      
         SectionTitle("Interests")
 
+ post-item
+        @OptIn(ExperimentalLayoutApi::class)
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            interests.forEach { interest ->
+                SelectableChip(
+                    text = interest,
+                    selected = selectedInterests.contains(interest),
+                    onClick = {
+                        if (selectedInterests.contains(interest)) {
+                            selectedInterests.remove(interest)
+                        } else {
+                            selectedInterests.add(interest)
+                        }
+                    }
+                )
+            }
+        }
 
+
+ main
 
         Spacer(Modifier.height(24.dp))
 
+       
         Text("Experience", color = Color.White, fontWeight = FontWeight.SemiBold)
 
         Spacer(Modifier.height(12.dp))
@@ -240,6 +273,7 @@ fun ProfileCompletionScreen() {
                 modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+            
                 Box(
                     modifier = Modifier
                         .size(48.dp)
@@ -277,6 +311,7 @@ fun ProfileCompletionScreen() {
 
         Spacer(Modifier.height(32.dp))
 
+      
         Button(
             onClick = {},
             modifier = Modifier
@@ -291,6 +326,7 @@ fun ProfileCompletionScreen() {
         Spacer(Modifier.height(20.dp))
     }
 }
+
 
 @Composable
 fun ProfileTextField(
@@ -341,7 +377,7 @@ fun SectionTitle(title: String, action: String? = null) {
 @Composable
 fun RemovableChip(text: String, onRemove: () -> Unit) {
     Surface(
-        color = Color(0xFF141C2F),
+        color = Color(0xFF141C2F), // Darker blue/bg
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(1.dp, Color(0xFF1E6BFF)),
         modifier = Modifier.height(32.dp)
